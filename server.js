@@ -1,6 +1,7 @@
 var express = require('express.io'),
 	swig = require('swig'),
-	_ = require('underscore');
+	_ = require('underscore')
+	passport = require('passport');
 
 var RedisStore = require('connect-redis')(express);
 
@@ -33,14 +34,30 @@ server.configure(function() {
 		//	pass : conf.redis.pass
 		// });	
 	}));
+
+	server.use(passport.initialize());
+	server.use(passport.session());
+});
+
+passport.serializeUser(function (user, done){
+	done(null, user);
+});
+
+passport.deserializeUser(function (obj, done){
+	done(null, obj);
 });
 
 //Nos traemos los controladores
-var homeController = require('./app/controllers/home.js');
-var appController = require('./app/controllers/app.js');
+var homeController = require('./app/controllers/home');
+var appController = require('./app/controllers/app');
 
 homeController(server, users);
 appController(server, users);
+
+//Conecciones
+var	twitterConnection = require('./app/connections/twitter');
+
+twitterConnection(server);
 
 server.io.route('listo', function (req){
 	//Solo a un usuario

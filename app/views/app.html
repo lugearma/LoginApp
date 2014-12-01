@@ -7,11 +7,18 @@
 {% endblock %}
 
 {% block content %}
-	<h1>Bienvenido {{ user }}</h1>
+	<h1>Bienvenido @{{ user.username }}</h1>
 	<a href="/log-out">Salir</a>
-	<ul id="lista">
-		{% for person in users %}
-			<li>{{ person }}</li>		
+
+	<div>
+		<form method="POST" action="/app/create-post">
+			<textarea name="content"></textarea>
+			<button>Postear</button>
+		</form>
+	</div>
+	<div id="post">
+		{% for post in posts %}
+			<p>{{ post.user.username }} : {{ post.content }}</p>
 		{% endfor %}
-	</ul>
+	</div>
 {% endblock %}
