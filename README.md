@@ -1,3 +1,3 @@
-# LoginApp
+# [DEPRECATED] LoginApp
 
-basic login in Node.js using Passport
+Basic login in Node.js using Passport
